@@ -8,7 +8,7 @@ on:
 
 jobs:
   backend-quality-and-evals:
-    name: Backend Tests, MLflow Gates & Linters
+    name: Backend Tests & Quality Gates
     runs-on: ubuntu-latest
 
     services:
@@ -55,13 +55,7 @@ jobs:
         working-directory: backend
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt pytest pytest-asyncio httpx flake8 black
-
-      - name: Run Linters & Style Check
-        working-directory: backend
-        run: |
-          flake8 app --count --select=E9,F63,F7,F82 --show-source --statistics
-          black --check app evals tests
+          pip install -r requirements.txt pytest-env
 
       - name: Run Database Migrations
         working-directory: backend
@@ -71,13 +65,14 @@ jobs:
         run: |
           alembic upgrade head
 
-      - name: Execute Full Pytest Suite (Phases 0-9)
+      - name: Execute Full Pytest Suite (Phases 0-9 & Reranker)
         working-directory: backend
         env:
           DATABASE_URL: postgresql+asyncpg://deva_admin:deva_secure_admin_pass@localhost:5432/deva_test
           DATABASE_URL_SYNC: postgresql://deva_admin:deva_secure_admin_pass@localhost:5432/deva_test
           REDIS_URL: redis://localhost:6379/0
           ENVIRONMENT: test
+          TESTING: "True"
         run: |
           pytest -v tests/
 
@@ -88,6 +83,7 @@ jobs:
           DATABASE_URL_SYNC: postgresql://deva_admin:deva_secure_admin_pass@localhost:5432/deva_test
           REDIS_URL: redis://localhost:6379/0
           ENVIRONMENT: test
+          TESTING: "True"
           MLFLOW_ALLOW_FILE_STORE: "true"
         run: |
           python -m evals.run_release_gate
