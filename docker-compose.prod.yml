@@ -1,0 +1,191 @@
+services:
+  # ----------------------------------------------------------------------------
+  # Nginx Reverse Proxy & Static SPA Serving
+  # ----------------------------------------------------------------------------
+  gateway:
+    build:
+      context: ./frontend
+      dockerfile: ../infra/docker/frontend.prod.Dockerfile
+    container_name: deva_prod_gateway
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # FastAPI Application Backend
+  # ----------------------------------------------------------------------------
+  api:
+    build:
+      context: ./backend
+      dockerfile: ../infra/docker/backend.prod.Dockerfile
+    container_name: deva_prod_api
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://deva_app_user:deva_secure_app_pass@postgres:5432/deva_db
+      - DATABASE_URL_SYNC=postgresql://deva_app_user:deva_secure_app_pass@postgres:5432/deva_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - ENVIRONMENT=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # Celery Asynchronous Processing Worker
+  # ----------------------------------------------------------------------------
+  worker:
+    build:
+      context: ./backend
+      dockerfile: ../infra/docker/backend.prod.Dockerfile
+    container_name: deva_prod_worker
+    restart: always
+    command: ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info", "-Q", "ingestion,processing,agents", "-c", "4"]
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://deva_app_user:deva_secure_app_pass@postgres:5432/deva_db
+      - DATABASE_URL_SYNC=postgresql://deva_app_user:deva_secure_app_pass@postgres:5432/deva_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # Celery Beat Scheduler
+  # ----------------------------------------------------------------------------
+  beat:
+    build:
+      context: ./backend
+      dockerfile: ../infra/docker/backend.prod.Dockerfile
+    container_name: deva_prod_beat
+    restart: always
+    command: ["celery", "-A", "app.workers.celery_app", "beat", "--loglevel=info"]
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # PostgreSQL 17 with pgvector
+  # ----------------------------------------------------------------------------
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: deva_prod_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: deva_admin
+      POSTGRES_PASSWORD: deva_secure_admin_pass
+      POSTGRES_DB: deva_db
+    volumes:
+      - deva_pgdata:/var/lib/postgresql/data
+      - ./infra/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U deva_admin -d deva_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # Redis 7 In-Memory Cache & Message Broker
+  # ----------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: deva_prod_redis
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - deva_redisdata:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # MLflow Tracking Server
+  # ----------------------------------------------------------------------------
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.19.0
+    container_name: deva_prod_mlflow
+    restart: always
+    command: ["mlflow", "server", "--backend-store-uri", "sqlite:////mlflow/mlflow.db", "--default-artifact-root", "/mlflow/artifacts", "--host", "0.0.0.0", "--port", "5000"]
+    volumes:
+      - deva_mlflowdata:/mlflow
+    ports:
+      - "5000:5000"
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # Prometheus Observability Scraper
+  # ----------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: deva_prod_prometheus
+    restart: always
+    volumes:
+      - ./infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - deva_promdata:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - deva_network
+
+  # ----------------------------------------------------------------------------
+  # Grafana Dashboard & Metrics Visualizer
+  # ----------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: deva_prod_grafana
+    restart: always
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=deva_admin_observability
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - deva_grafanadata:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - deva_network
+
+volumes:
+  deva_pgdata:
+  deva_redisdata:
+  deva_mlflowdata:
+  deva_promdata:
+  deva_grafanadata:
+
+networks:
+  deva_network:
+    driver: bridge

@@ -1,0 +1,5 @@
+{
+  "linker_precision_recall": 1.0,
+  "citation_resolution_rate": 1.0,
+  "unanswerable_refusal_rate": 1.0
+}

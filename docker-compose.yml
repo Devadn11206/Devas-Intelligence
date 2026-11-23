@@ -1,0 +1,131 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: deva_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: deva_user
+      POSTGRES_PASSWORD: deva_password
+      POSTGRES_DB: deva_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U deva_user -d deva_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - deva_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: deva_redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - deva_net
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.16.2
+    container_name: deva_mlflow
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+    command: ["mlflow", "server", "--backend-store-uri", "/mlflow/mlruns", "--host", "0.0.0.0", "--port", "5000"]
+    networks:
+      - deva_net
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: ../infra/docker/backend.Dockerfile
+    container_name: deva_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - APP_NAME=DEVA INTELLIGENCE
+      - ENVIRONMENT=development
+      - DEBUG=True
+      - DATABASE_URL=postgresql+asyncpg://deva_user:deva_password@postgres:5432/deva_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - LLM_PROVIDER=mock
+      - TESTING=False
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - deva_net
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: ../infra/docker/backend.Dockerfile
+    container_name: deva_worker
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+    environment:
+      - APP_NAME=DEVA INTELLIGENCE
+      - ENVIRONMENT=development
+      - DEBUG=True
+      - DATABASE_URL=postgresql+asyncpg://deva_user:deva_password@postgres:5432/deva_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - LLM_PROVIDER=mock
+      - TESTING=False
+    command: ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info", "-Q", "ingestion,processing,agents"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - deva_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../infra/docker/frontend.Dockerfile
+    container_name: deva_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    networks:
+      - deva_net
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  deva_net:
+    driver: bridge

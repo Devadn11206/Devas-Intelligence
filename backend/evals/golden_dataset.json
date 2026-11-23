@@ -1,0 +1,272 @@
+[
+  {
+    "id": "eval-01",
+    "domain": "scientific_ml",
+    "query": "physics-informed neural networks for incompressible navier stokes equations",
+    "expected_slugs": ["pinns-navier-stokes", "fourier-neural-operator"],
+    "expected_tags": ["pinns", "fluid-dynamics", "scientific-ml"],
+    "linked_repo_url": "https://github.com/maziarraissi/PINNs",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-02",
+    "domain": "scientific_ml",
+    "query": "Fourier neural operators for parametric partial differential equations resolution invariance",
+    "expected_slugs": ["fno-pde-resolution-invariance"],
+    "expected_tags": ["neural-operators", "pde", "deepxde"],
+    "linked_repo_url": "https://github.com/neuraloperator/neuraloperator",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-03",
+    "domain": "llm_inference",
+    "query": "PagedAttention memory management and KV cache fragmentation reduction in vLLM",
+    "expected_slugs": ["vllm-paged-attention"],
+    "expected_tags": ["vllm", "llm-inference", "paged-attention"],
+    "linked_repo_url": "https://github.com/vllm-project/vllm",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-04",
+    "domain": "llm_inference",
+    "query": "speculative decoding with draft model tree verification",
+    "expected_slugs": ["speculative-decoding-tree"],
+    "expected_tags": ["speculative-decoding", "transformer-inference"],
+    "linked_repo_url": "https://github.com/hexdsl/speculative-decoding",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-05",
+    "domain": "llm_inference",
+    "query": "FlashAttention-2 faster forward and backward pass tiling on Nvidia Hopper GPUs",
+    "expected_slugs": ["flash-attention-2"],
+    "expected_tags": ["cuda", "flash-attention", "gpu-kernels"],
+    "linked_repo_url": "https://github.com/Dao-AILab/flash-attention",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-06",
+    "domain": "healthcare_ai",
+    "query": "AlphaFold 3 multimodal molecular structure prediction for nucleic acids proteins and ligands",
+    "expected_slugs": ["alphafold-3-biomolecular"],
+    "expected_tags": ["biotech", "alphafold", "protein-folding"],
+    "linked_repo_url": "https://github.com/google-deepmind/alphafold3",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-07",
+    "domain": "healthcare_ai",
+    "query": "foundation models for 3D medical image segmentation with self-supervised vision transformers",
+    "expected_slugs": ["medical-sam-3d"],
+    "expected_tags": ["medical-imaging", "ct-scan", "segmentation"],
+    "linked_repo_url": "https://github.com/bowang-lab/MedSAM",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-08",
+    "domain": "music_audio",
+    "query": "neural audio codec and discrete token audio language models for real-time speech generation",
+    "expected_slugs": ["encodec-soundstream-audio"],
+    "expected_tags": ["audio-codec", "music-generation", "speech-synthesis"],
+    "linked_repo_url": "https://github.com/facebookresearch/encodec",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-09",
+    "domain": "music_audio",
+    "query": "voice cloning and expressive text-to-speech with diffusion transformers",
+    "expected_slugs": ["diff-svc-voice-clone"],
+    "expected_tags": ["text-to-speech", "diffusion", "voice-synthesis"],
+    "linked_repo_url": "https://github.com/prophesier/diff-svc",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-10",
+    "domain": "open_source_repo",
+    "query": "deep learning framework tensor compilers torch.compile Triton backend",
+    "expected_slugs": ["pytorch-triton-compiler"],
+    "expected_tags": ["pytorch", "triton", "tensor-compiler"],
+    "linked_repo_url": "https://github.com/openai/triton",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-11",
+    "domain": "scientific_ml",
+    "query": "physics-informed deep operator networks DeepONet universal approximation of nonlinear operators",
+    "expected_slugs": ["deeponet-operator-learning"],
+    "expected_tags": ["deeponet", "operator-learning", "pinns"],
+    "linked_repo_url": "https://github.com/lululxvi/deepxde",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-12",
+    "domain": "llm_inference",
+    "query": "AWQ activation-aware weight quantization for LLMs low-bit inference without retraining",
+    "expected_slugs": ["awq-quantization"],
+    "expected_tags": ["quantization", "awq", "4bit"],
+    "linked_repo_url": "https://github.com/mit-han-lab/llm-awq",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-13",
+    "domain": "llm_inference",
+    "query": "vLLM chunked prefill pipelined execution concurrent decode batches",
+    "expected_slugs": ["vllm-chunked-prefill"],
+    "expected_tags": ["vllm", "chunked-prefill", "inference"],
+    "linked_repo_url": "https://github.com/vllm-project/vllm",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-14",
+    "domain": "healthcare_ai",
+    "query": "genomic variant pathogenicity classification with pre-trained masked DNA language models",
+    "expected_slugs": ["hyena-dna-genomics"],
+    "expected_tags": ["genomics", "dna-models", "variant-calling"],
+    "linked_repo_url": "https://github.com/HazyResearch/hyena-dna",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-15",
+    "domain": "music_audio",
+    "query": "music source separation with hybrid Demucs Conv-TasNet architecture",
+    "expected_slugs": ["htdemucs-source-separation"],
+    "expected_tags": ["source-separation", "music-tech", "demucs"],
+    "linked_repo_url": "https://github.com/facebookresearch/demucs",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-16",
+    "domain": "scientific_ml",
+    "query": "PINNs with adaptive loss balancing for stiff chemical kinetics ordinary differential equations",
+    "expected_slugs": ["pinns-stiff-kinetics"],
+    "expected_tags": ["pinns", "chemistry", "stiff-ode"],
+    "linked_repo_url": "https://github.com/lululxvi/deepxde",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-17",
+    "domain": "llm_inference",
+    "query": "TensorRT-LLM in-flight batching multi-GPU tensor parallelism FP8 matrix multiplication",
+    "expected_slugs": ["tensorrt-llm-fp8"],
+    "expected_tags": ["tensorrt-llm", "fp8", "nvidia"],
+    "linked_repo_url": "https://github.com/NVIDIA/TensorRT-LLM",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-18",
+    "domain": "healthcare_ai",
+    "query": "multi-modal clinical reasoning EHR tabular time series and radiograph foundation model",
+    "expected_slugs": ["clinical-fm-ehr"],
+    "expected_tags": ["ehr", "clinical-ai", "healthcare"],
+    "linked_repo_url": "https://github.com/stanford-mlgroup/clinical-fm",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-19",
+    "domain": "music_audio",
+    "query": "audioldm text to audio generation with latent diffusion models",
+    "expected_slugs": ["audioldm-latent-diffusion"],
+    "expected_tags": ["text-to-audio", "diffusion", "latent-audio"],
+    "linked_repo_url": "https://github.com/haoheliu/AudioLDM",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-20",
+    "domain": "open_source_repo",
+    "query": "distributed training deepspeed ZeRO-3 parameter offloading NVMe",
+    "expected_slugs": ["deepspeed-zero3-offload"],
+    "expected_tags": ["deepspeed", "zero3", "distributed-training"],
+    "linked_repo_url": "https://github.com/microsoft/DeepSpeed",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-21",
+    "domain": "scientific_ml",
+    "query": "neural ordinary differential equations adjoint sensitivity continuous depth models",
+    "expected_slugs": ["neural-ode-adjoint"],
+    "expected_tags": ["neural-ode", "dynamical-systems"],
+    "linked_repo_url": "https://github.com/rtqichen/torchdiffeq",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-22",
+    "domain": "llm_inference",
+    "query": "Mamba state space models linear time sequence modeling selective SSM",
+    "expected_slugs": ["mamba-ssm-selective"],
+    "expected_tags": ["mamba", "state-space-models", "sub-quadratic"],
+    "linked_repo_url": "https://github.com/state-spaces/mamba",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-23",
+    "domain": "healthcare_ai",
+    "query": "cryo-EM 3D reconstruction with neural fields and implicit representations",
+    "expected_slugs": ["cryodrgn-cryoem"],
+    "expected_tags": ["cryo-em", "structural-biology", "neural-fields"],
+    "linked_repo_url": "https://github.com/zhonge/cryodrgn",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-24",
+    "domain": "music_audio",
+    "query": "Whisper robust speech recognition via large scale weak supervision",
+    "expected_slugs": ["whisper-robust-asr"],
+    "expected_tags": ["speech-recognition", "whisper", "audio"],
+    "linked_repo_url": "https://github.com/openai/whisper",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-25",
+    "domain": "open_source_repo",
+    "query": "vLLM Ray distributed orchestration multi-node model parallel serving",
+    "expected_slugs": ["vllm-ray-distributed"],
+    "expected_tags": ["ray", "vllm", "distributed-inference"],
+    "linked_repo_url": "https://github.com/vllm-project/vllm",
+    "is_answerable": true
+  },
+  {
+    "id": "eval-26",
+    "domain": "out_of_scope_unanswerable",
+    "query": "quantum gravity wormhole traversability warp drive propellant metrics in DEVA",
+    "expected_slugs": [],
+    "expected_tags": [],
+    "linked_repo_url": null,
+    "is_answerable": false
+  },
+  {
+    "id": "eval-27",
+    "domain": "out_of_scope_unanswerable",
+    "query": "ancient Roman culinary recipes with garum fermentation chemical breakdown",
+    "expected_slugs": [],
+    "expected_tags": [],
+    "linked_repo_url": null,
+    "is_answerable": false
+  },
+  {
+    "id": "eval-28",
+    "domain": "out_of_scope_unanswerable",
+    "query": "how to build a backyard nuclear fission breeder reactor with graphite rods",
+    "expected_slugs": [],
+    "expected_tags": [],
+    "linked_repo_url": null,
+    "is_answerable": false
+  },
+  {
+    "id": "eval-29",
+    "domain": "out_of_scope_unanswerable",
+    "query": "1994 Premier League football match scores and player yellow card counts",
+    "expected_slugs": [],
+    "expected_tags": [],
+    "linked_repo_url": null,
+    "is_answerable": false
+  },
+  {
+    "id": "eval-30",
+    "domain": "out_of_scope_unanswerable",
+    "query": "crypto token pump and dump Telegram signals algorithmic trading bot source code",
+    "expected_slugs": [],
+    "expected_tags": [],
+    "linked_repo_url": null,
+    "is_answerable": false
+  }
+]
