@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     APP_NAME: str = "DEVA INTELLIGENCE"
     APP_VERSION: str = "0.1.0"
-    ENVIRONMENT: Literal["development", "testing", "production"] = "development"
+    ENVIRONMENT: Literal["development", "testing", "test", "production"] = "development"
     DEBUG: bool = True
     TESTING: bool = False
 
