@@ -15,7 +15,7 @@
   <strong>Continuous multi-stream ingestion from arXiv, GitHub, Hugging Face, and engineering RSS feeds, cross-stream paper↔code entity linking, structured 350-word RAG executive briefings, 7-day velocity hype tracking, and an autonomous citation-guarded AI Analyst.</strong>
 </p>
 
-[Key Features](#-core-architecture--features) • [Interior Design System](#-visual-identity--interior-patterns) • [Architecture](#-system-architecture) • [Quick Start](#-quick-start) • [Verification Gates](#-verification--quality-gates) • [License](#-license)
+[Key Features](#-core-architecture--features) • [Architecture](#-system-architecture) • [Quick Start](#-quick-start) • [Verification Gates](#-verification--quality-gates) • [License](#-license)
 
 ---
 
@@ -55,33 +55,6 @@
 * **RLS-Isolated Executive Reports (`/reports`):** Creates persistent, multi-source dossiers strictly isolated per tenant through PostgreSQL **Row-Level Security (RLS)** with Markdown export.
 * **Semantic Watchlists & Proactive Alerts (`/preferences`):** Embeds custom natural-language radar queries into 768-dimensional vector space, scanning real-time ingestion against cosine-similarity thresholds with notifications.
 * **3-Minute AI Voice Digest:** Floating executive audio player capsule with TTS voice selector, speed control (`1.0x` / `1.25x` / `1.5x`), dynamic equalizer, and 5-story briefing queue.
-
----
-
-## 🎨 Visual Identity & Interior Patterns
-
-DEVA Intelligence is crafted with an exclusive **6-Color Luxury Obsidian & Champagne Gold Glassmorphic Design System**:
-
-| Color Token | Hex / Value | Purpose |
-| :--- | :--- | :--- |
-| **Deep Midnight Obsidian Canvas** | `#08090C` | Primary foundation with ambient radial gold/sapphire backlighting |
-| **Smoked Graphite Frosted Glass** | `rgba(19, 22, 29, 0.78)` | Card surfaces, modals, and drawers with metallic gold rim borders |
-| **Luminous Champagne Gold** | `#D4AF37` → `#F3D06B` | Primary CTAs (`.btn-gold-glow`), active pills, chart peaks, progress bars |
-| **Electric Sapphire** | `#3B82F6` / `#60A5FA` | Research papers, AI Analyst reasoning streams, and secondary trends |
-| **Verified Emerald** | `#10B981` | System health pulse, `Code Linked (N)` badges, verified consensus |
-| **Warm Alabaster Ivory** | `#F8FAFC` / `#94A3B8` | High-contrast editorial typography and executive briefings |
-
-### 10 Interior Layout Patterns
-1. **Asymmetric Spotlight Bento Hero:** Live breakthrough showcase highlighting the highest-momentum technical signal.
-2. **Split-Tone 2-Zone Intel Cards:** Content narrative on the left paired with a dedicated telemetry rail (`Code Linked`, `Compare`, `Bookmark`, `Read 350w →`) on the right.
-3. **Stacked Frosted Glass Deck:** Multi-layered elevation for Paper↔Code links and saved dossiers.
-4. **Inline Sparkline KPI Tiles:** Top telemetry cards featuring embedded SVG area sparklines and real-time deltas.
-5. **Vertical Evolution Timeline Rail:** Signal provenance tracking (`Source Ingested` → `350w AI Synthesis` → `N Linked Entities`).
-6. **Champagne Gold Glow CTAs:** High-impact gradient buttons paired with smoked graphite ghost controls.
-7. **Segmented Sliding Pill Switchers:** Frosted capsule selectors for domain, mode, and view switching.
-8. **Editorial Citation Callout Blocks:** 3px gold accent bar callouts for verdicts and cited evidence.
-9. **Glassmorphic Comparison Matrix Grid:** Sticky attribute columns with candidate comparisons and trade-off handoffs.
-10. **Floating High-Blur Action Capsules:** Detached bottom docks for audio briefings, comparison trays, and command palettes.
 
 ---
 
